@@ -8,14 +8,14 @@ Write each one in 1–2 sentences, plus one example from a car or an industrial 
 
 | Term | My definition | Example |
 |---|---|---|
-| Asset | | |
-| Threat | | |
-| Vulnerability | | |
-| Risk | | |
-| Attack surface | | |
-| Confidentiality | | |
-| Integrity | | |
-| Availability | | |
+| Asset |Something valuable that we need to protect |The battery pack and the BMS that protects it during charging |
+| Threat |Someone or something that could cause harm | A hacker who takes control of a public charger and wants to damage the cars plugged into it|
+| Vulnerability | A weakness that lets the threat succeed | The car trusts the charger’s messages without checking them (older DIN 70121 charging has no encryption) |
+| Risk | 	How likely an attack is × how bad the result would be | Public chargers are exposed on the internet (likely) and an overcharged battery can catch fire (severe), so the risk is high |
+| Attack surface | All the places where an attacker can reach the system | The charging cable, the charger’s internet connection, the car’s 4G and Bluetooth, the mobile app |
+| Confidentiality | Only authorized people can see the information | The Plug & Charge certificate key inside the car must never be readable, or someone could charge on your account |
+| Integrity | Information can’t be changed without permission | The charging limits sent by the BMS (max voltage and current) must not be modified on the way |
+| Availability | The system keeps working when you need it | An attacker must not be able to stop all charging. Researchers showed this is possible with radio interference (the “Brokenwire” attack) |
 
 ## 2. Thinking like an attacker (Day 2)
 Device I chose: _
