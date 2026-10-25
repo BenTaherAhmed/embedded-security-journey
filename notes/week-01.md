@@ -18,12 +18,22 @@ Write each one in 1–2 sentences, plus one example from a car or an industrial 
 | Availability | The system keeps working when you need it | An attacker must not be able to stop all charging. Researchers showed this is possible with radio interference (the “Brokenwire” attack) |
 
 ## 2. Thinking like an attacker (Day 2)
-Device I chose: _
-1.
-2.
-3.
-4.
-5.
+Device I chose: public EV charging station (DC fast charger)
+
+1. A hacked charger reads the car's ID and Plug & Charge certificate,
+   then reuses them to charge on the victim's account. (Confidentiality)
+2. An attacker inserts a device in the charging cable and modifies the
+   messages, e.g. the current limits sent by the BMS. (Integrity)
+3. An attacker nearby listens to the charging communication by radio,
+   or jams it to stop charging (Brokenwire). (Confidentiality, Availability)
+4. An attacker uses the car's 4G connection while it is parked and charging
+   to attack the telematics unit remotely. (All three, remote and scalable)
+5. An attacker hacks the operator's backend and uses OCPP to stop all
+   chargers or push fake firmware to them, which then attacks the cars.
+   (Availability, Integrity: highest scale, can even affect the grid)
+
+Lesson: "hack the charger → open the doors" is an attack chain; the gateway
+between ECUs forces the attacker to find a second vulnerability.
 
 ## 3. Crypto with openssl (Day 3)
 - Commands I ran and what each one does:
