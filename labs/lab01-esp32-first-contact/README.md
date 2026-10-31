@@ -56,7 +56,26 @@ espefuse -p COM4 summary
 
 \## What I learned
 
-\- ...
+## Bonus: firmware dump (attacker view)
+esptool -p COM4 read-flash 0 0x800000 dump.bin
+- The full 8 MB flash was copied in about 50 seconds, with only a USB cable.
+- Readable text inside the dump (versions, messages, URLs) helps an attacker
+  understand and reverse-engineer the firmware.
+- The dump is not published (factory firmware, ignored by .gitignore).
+
+## What I learned
+- The ESP32-S3 has strong security hardware (secure boot, flash encryption,
+  6 key slots, crypto accelerators), but a new chip ships with all of it OFF.
+  Turning it on is the manufacturer's job; forgetting it is a common real-world mistake.
+- eFuses are one-time switches: once burned, they can never be reset.
+  Reading them (espefuse summary) is safe; burning them is permanent.
+- Physical USB access + open download mode = full access to the firmware.
+- Two protections would have stopped my dump: flash encryption (unreadable data)
+  and disabling download mode (no read-flash at all). Secure boot would block
+  the next step: flashing malicious firmware.
+- The CPU is Xtensa LX7 (not ARM), so reverse engineering needs Xtensa support.
+- The chip has a CAN controller (TWAI): useful for automotive labs later.
+- Masking device identifiers (MAC, unique ID) before publishing is a security habit.
 
 
 
