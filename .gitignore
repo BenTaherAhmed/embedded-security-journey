@@ -1,2 +1,5 @@
 *.bin
 strings*.txt
+build/
+venv/
+sdkconfig.old

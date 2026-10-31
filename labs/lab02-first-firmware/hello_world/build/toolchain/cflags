@@ -1,5 +1,0 @@
--mlongcalls
--fno-builtin-memcpy
--fno-builtin-memset
--fno-builtin-bzero
-"-specs=C:/Users/p133419/dev/embedded-security-journey/labs/lab02-first-firmware/hello_world/build/specs/picolibc.specs"
