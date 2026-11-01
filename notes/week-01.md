@@ -36,17 +36,57 @@ Lesson: "hack the charger → open the doors" is an attack chain; the gateway
 between ECUs forces the attacker to find a second vulnerability.
 
 ## 3. Crypto with openssl (Day 3)
-- Commands I ran and what each one does:
-- What happened when I changed one byte of the file:
-- Hash vs MAC vs signature, in my own words:
+Commands I ran (Git Bash):
+| Command | What it does |
+|---|---|
+| `openssl dgst -sha256 file.bin` | Computes the SHA-256 hash (fingerprint) of the file |
+| `openssl dgst -sha256 -hmac mysecret file.bin` | Computes a MAC: hash mixed with a secret key |
+| `openssl enc -aes-256-cbc -pbkdf2 -in file.bin -out file.enc` | Encrypts the file with AES-256 (key derived from a password) |
+| `openssl enc -d -aes-256-cbc -pbkdf2 -in file.enc -out back.bin` | Decrypts it back |
+
+What happened when I changed one letter ("unlock door" → "Unlock door"):
+the hash changed completely, not just one character. Changing only the HMAC
+key changed the MAC but not the hash: the MAC depends on the secret, the hash does not.
+
+Hash vs MAC vs signature, in my own words:
+| | Key | Who can create it | Proves | Example |
+|---|---|---|---|---|
+| Hash | None | Anyone | Data not changed (accidents) | Integrity hash at the end of ESP-IDF firmware |
+| MAC | One shared secret | Anyone with the key | Not changed + made by a key holder | SecOC on CAN messages |
+| Signature | Private + public pair | Only the private-key owner | Not changed + made by THIS sender | Secure boot, firmware updates |
 
 ## 4. Firmware signing project (weekend)
-- What I built: `sign_firmware.py`, `verify_firmware.py`
-- Why the device stores only the public key:
-- What happens if the private key leaks:
+Code: `projects/firmware-signing/` (keygen, sign, verify — ECDSA P-256 + SHA-256)
+
+| Test | Result |
+|---|---|
+| Original firmware, manufacturer signature | VALID |
+| Firmware modified after signing | REJECTED |
+| Attacker signs modified firmware with their own key | REJECTED |
+
+- Why the device stores only the public key: the public key can only CHECK
+  signatures, not create them. Even if an attacker extracts it from the chip,
+  they cannot sign fake firmware.
+- What happens if the private key leaks: the attacker can sign any firmware and
+  every device will accept it. All devices are compromised until the key is
+  revoked and replaced. That is why private keys live in an HSM, never in a repo.
+- What must be protected in the device: the public key must not be REPLACEABLE
+  (stored in ROM/eFuses), otherwise the attacker swaps it for their own.
 
 ## 5. Questions I still have
--
+- How does the ESP32-S3 store the secure boot key in eFuses, and can it be revoked?
+- What happens on a real car if the OEM signing key leaks?
+- Can fault injection (glitching) skip the signature check?
 
-## 6. Next week
--
+## 6. Week 1 summary and next week
+Done: security basics (TryHackMe), EV-charger threat analysis, crypto with openssl,
+Lab 01 (eFuse review + firmware dump), Lab 02 (first firmware + boot chain),
+firmware signing project.
+
+Week 2:
+- Lab 03 preparation: ESP32-S3 Secure Boot v2 — read the docs, generate the
+  signing key with espsecure, plan every step BEFORE burning any eFuse
+- Serious Cryptography: chapters 2–3 (randomness, cryptographic security)
+- TryHackMe: Network Fundamentals (Pre Security path)
+
+
