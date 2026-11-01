@@ -50,9 +50,9 @@ the hash (the build did it for me). Proving WHO made the firmware needs a
 signature, which is what secure boot adds.
 
 ## Other observations
-- Flash size mismatch: the project used the 2 MB default, but the board has 8 MB
-  (`W (225) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k)`).
-  Fix: `idf.py menuconfig` → Serial flasher config → Flash size → 8 MB.
+- Flash size mismatch (fixed): the project used the 2 MB default, but the board has 8 MB.
+  Fixed with `idf.py menuconfig` → Serial flasher config → Flash size → 8 MB.
+  The boot log now shows `SPI Flash Size : 8MB` and the warning is gone.
 - CPU runs at 160 MHz (default), not the 240 MHz maximum.
 - `App version: 13af371` is my Git commit ID: every build is traceable.
 - `app_main()` starts on CPU0 (core 0) in ESP-IDF.
