@@ -10,4 +10,9 @@ Goal: ISO 21434 / IEC 62443 skills + hands-on embedded attack & defense.
 4. Certification & portfolio (months 10–14)
 
 ## Log
-- Week 1: security basics, crypto with openssl, firmware signing in Python
+- Week 1: security basics, EV-charger threat analysis, crypto with openssl
+- [Lab 01](labs/lab01-esp32-first-contact/): ESP32-S3 eFuse security review + firmware dump
+- [Lab 02](labs/lab02-first-firmware/): first ESP-IDF firmware, boot chain and integrity hash
+- [Firmware signing](projects/firmware-signing/): sign and verify firmware with ECDSA in Python
+
+See [notes/](notes/) for weekly notes, [labs/](labs/) for hardware labs and [projects/](projects/) for code projects.
